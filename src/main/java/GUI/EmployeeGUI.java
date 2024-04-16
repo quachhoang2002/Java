@@ -30,7 +30,7 @@ public class EmployeeGUI extends javax.swing.JPanel {
     }
 
     private void initUI() {
-        setLayout(new BorderLayout());
+//        setLayout(new BorderLayout());
 
         // Initialize table model
         if (employee_table == null) {
@@ -42,14 +42,16 @@ public class EmployeeGUI extends javax.swing.JPanel {
             tableModel = (DefaultTableModel) employee_table.getModel();
         }
 
+        loadData();
+        
         // Add a JScrollPane to manage table scrolling
-        JScrollPane scrollPane = new JScrollPane(employee_table);
-        add(scrollPane, BorderLayout.CENTER);
-
-        // Optionally, add a button to load or refresh the data
-        JButton loadButton = new JButton("Load Data");
-        loadButton.addActionListener(e -> loadData());
-        add(loadButton, BorderLayout.SOUTH);
+//        JScrollPane scrollPane = new JScrollPane(employee_table);
+//        add(scrollPane, BorderLayout.CENTER);
+//
+//        // Optionally, add a button to load or refresh the data
+//        JButton loadButton = new JButton("Load Data");
+//        loadButton.addActionListener(e -> loadData());
+//        add(loadButton, BorderLayout.SOUTH);
     }
 
     // Method to update the table model
