@@ -12,7 +12,6 @@ import java.util.ArrayList;
  */
 public class EmployeeDTO {
     private int id;
-    private String identify;
     private String lastname;
     private String name; // Assuming this is the actual name, not gender. You might want a separate field for gender.
     private String position;
@@ -27,15 +26,6 @@ public class EmployeeDTO {
     }
     
     // Getter for identify
-    public String getIdentify() {
-        return identify;
-    }
-
-    // Setter for identify
-    public void setIdentify(String identify) {
-        this.identify = identify;
-    }
-
     // Getter for lastname
     public String getLastname() {
         return lastname;

@@ -40,6 +40,7 @@ public class Home extends javax.swing.JFrame {
         nhanvien_btn = new javax.swing.JButton();
         nhaphang_btn = new javax.swing.JButton();
         thongke_btn = new javax.swing.JButton();
+        thongke_btn1 = new javax.swing.JButton();
         body = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -56,16 +57,16 @@ public class Home extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(171, Short.MAX_VALUE)
+                .addContainerGap(286, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(157, 157, 157))
+                .addGap(256, 256, 256))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addComponent(jLabel1)
-                .addGap(27, 27, 27))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         sanpham_btn.setText("San pham");
@@ -117,6 +118,13 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        thongke_btn1.setText("Kho Hang");
+        thongke_btn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                thongke_btn1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout tabLayout = new javax.swing.GroupLayout(tab);
         tab.setLayout(tabLayout);
         tabLayout.setHorizontalGroup(
@@ -130,7 +138,8 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(khuyenmai_btn1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nhanvien_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nhaphang_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(thongke_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(thongke_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(thongke_btn1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         tabLayout.setVerticalGroup(
@@ -149,8 +158,10 @@ public class Home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(nhaphang_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(thongke_btn1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(thongke_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout bodyLayout = new javax.swing.GroupLayout(body);
@@ -193,7 +204,7 @@ public class Home extends javax.swing.JFrame {
         body.removeAll();
         body.setLayout(new BorderLayout()); // Set to BorderLayout
 
-        ListEmployeePanel emForm = new ListEmployeePanel();
+        EmployeeGUI emForm = new EmployeeGUI();
         emForm.setPreferredSize(new Dimension(300, 300)); // Example size, adjust as needed
         body.add(emForm, BorderLayout.CENTER);
 
@@ -203,10 +214,10 @@ public class Home extends javax.swing.JFrame {
 
     private void banhang_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_banhang_btnActionPerformed
         // TODO add your handling code here:
-          body.removeAll();
+        body.removeAll();
         body.setLayout(new BorderLayout()); // Set to BorderLayout
 
-        StorePanel emForm = new StorePanel();
+        Warehouse emForm = new Warehouse();
         emForm.setPreferredSize(new Dimension(300, 300)); // Example size, adjust as needed
         body.add(emForm, BorderLayout.CENTER);
 
@@ -224,6 +235,14 @@ public class Home extends javax.swing.JFrame {
 
     private void nhanvien_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nhanvien_btnActionPerformed
         // TODO add your handling code here:
+        body.removeAll();
+        body.setLayout(new BorderLayout()); // Set to BorderLayout
+
+        EmployeeGUI emForm = new EmployeeGUI();
+        emForm.setPreferredSize(new Dimension(300, 300)); // Example size, adjust as needed
+        body.add(emForm, BorderLayout.CENTER);
+        body.revalidate();
+        body.repaint();
     }//GEN-LAST:event_nhanvien_btnActionPerformed
 
     private void nhaphang_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nhaphang_btnActionPerformed
@@ -233,6 +252,10 @@ public class Home extends javax.swing.JFrame {
     private void thongke_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thongke_btnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_thongke_btnActionPerformed
+
+    private void thongke_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thongke_btn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_thongke_btn1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -281,5 +304,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton sanpham_btn;
     private javax.swing.JPanel tab;
     private javax.swing.JButton thongke_btn;
+    private javax.swing.JButton thongke_btn1;
     // End of variables declaration//GEN-END:variables
 }

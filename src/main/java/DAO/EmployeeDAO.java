@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.Database;
@@ -24,7 +26,6 @@ public class EmployeeDAO {
     ResultSet rs = null;
 
     public EmployeeDTO find(String id) {
-
         try {
             Connection conn = Database.GetConnection();
             stmt = conn.prepareStatement("SELECT * FROM employee WHERE id = ?");
@@ -47,5 +48,35 @@ public class EmployeeDAO {
             Database.CloseConnection(conn, stmt);
         }
         return null;
+    }
+
+    public List<EmployeeDTO> findByName(String name) {
+        List<EmployeeDTO> employees = new ArrayList();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = Database.GetConnection();
+            // Prepare the SQL statement with a name filter
+            stmt = conn.prepareStatement("SELECT * FROM employee WHERE first_name LIKE ?");
+            // Set the name parameter in the query, adding wildcards for partial matching
+            stmt.setString(1, "%" + name + "%");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                EmployeeDTO e = new EmployeeDTO();
+                e.setID(rs.getInt("id"));
+                e.setName(rs.getString("first_name"));
+                employees.add(e);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } catch (ClassNotFoundException e) {
+            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Database.CloseConnection(conn, stmt);
+        }
+        return employees;
     }
 }

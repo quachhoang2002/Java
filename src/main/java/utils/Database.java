@@ -6,6 +6,8 @@ package utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -16,9 +18,9 @@ import java.sql.Statement;
 public class Database {
 
     public static final String port = "3306";
-    public static final String database = "mysql";
-    public static final String user = "mysql";
-    public static final String password = "mysql";
+    public static final String database = "java";
+    public static final String user = "root";
+    public static final String password = "";
 
     public static Connection GetConnection() throws SQLException, ClassNotFoundException {
         String connectionUrl = "jdbc:mysql://localhost:" + port + "/" + database + "?user=" + user + "&password=" + password;
@@ -41,6 +43,10 @@ public class Database {
         } catch (Exception e) {
             System.out.println("Cann't close connection");
         }
+    }
+
+    public static void CloseConnection(Connection conn, PreparedStatement stmt, ResultSet rs) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
