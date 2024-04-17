@@ -38,4 +38,24 @@ public class EmployeeBus {
         return employees;
     }
 
+    public boolean createEmployee(EmployeeDTO employee) {
+        // Validate the employee object
+        if (employee == null) {
+            throw new IllegalArgumentException("Employee object cannot be null");
+        }
+        if (employee.getName() == null || employee.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Employee name cannot be null or empty");
+        }
+        if (employee.getLastname() == null || employee.getLastname().trim().isEmpty()) {
+            throw new IllegalArgumentException("Employee lastname cannot be null or empty");
+        }
+        // Additional validations can be added here (e.g., valid gender, position)
+
+        // Call DAO to create the employee
+        boolean isSuccess = dao.createEmployee(employee);
+
+        // Additional business logic or post-processing can be done here if needed
+        return isSuccess;
+    }
+
 }

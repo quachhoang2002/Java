@@ -14,7 +14,8 @@ public class EmployeeDTO {
     private int id;
     private String lastname;
     private String name; // Assuming this is the actual name, not gender. You might want a separate field for gender.
-    private String position;
+    private int position;
+    private int gender;
     
     public int getID() {
         return id;
@@ -47,13 +48,21 @@ public class EmployeeDTO {
     }
 
     // Getter for position
-    public String getPosition() {
+    public int getPosition() {
         return position;
     }
 
     // Setter for position
-    public void setPosition(String position) {
+    public void setPosition(int position) {
         this.position = position;
+    }
+    
+    public void setGender(int gender){
+        this.gender= gender;
+    }
+    
+    public int getGender(){
+        return this.gender;
     }
 }
 

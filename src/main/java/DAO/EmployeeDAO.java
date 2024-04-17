@@ -68,6 +68,9 @@ public class EmployeeDAO {
                 EmployeeDTO e = new EmployeeDTO();
                 e.setID(rs.getInt("id"));
                 e.setName(rs.getString("first_name"));
+                e.setLastname(rs.getString("last_name"));
+                e.setGender(rs.getInt("gender"));
+                e.setPosition(rs.getInt("position"));
                 employees.add(e);
             }
         } catch (SQLException e) {
@@ -79,4 +82,36 @@ public class EmployeeDAO {
         }
         return employees;
     }
+
+    public boolean createEmployee(EmployeeDTO employee) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        boolean isSuccess = false;
+
+        try {
+            conn = Database.GetConnection();
+            // Prepare the SQL statement for inserting a new employee
+            String sql = "INSERT INTO employee (first_name, last_name, gender, position) VALUES (?, ?, ?, ?)";
+            stmt = conn.prepareStatement(sql);
+
+            // Set parameters based on the employee object passed
+            stmt.setString(1, employee.getName());
+            stmt.setString(2, employee.getLastname());
+            stmt.setInt(3, employee.getGender());
+            stmt.setInt(4, employee.getPosition());
+
+            // Execute the insert operation
+            int affectedRows = stmt.executeUpdate();
+            isSuccess = affectedRows > 0;
+        } catch (SQLException e) {
+            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } catch (ClassNotFoundException e) {
+            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Database.CloseConnection(conn, stmt);
+        }
+
+        return isSuccess;
+    }
+
 }

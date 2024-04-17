@@ -4,11 +4,14 @@
  */
 package GUI;
 
+import BUS.EmployeeBus;
 import DAO.EmployeeDAO;
 import DTO.EmployeeDTO;
 import java.awt.BorderLayout;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -20,6 +23,15 @@ import javax.swing.table.DefaultTableModel;
 public class EmployeeGUI extends javax.swing.JPanel {
 
     private DefaultTableModel tableModel;
+
+    private void initializeGenderComboBox() {
+        gender_cbx.setModel(new DefaultComboBoxModel<>(new String[]{"Male", "Female", "Other"}));
+    }
+
+    private void initializePositionComboBox() {
+        // Example positions - replace this with database fetch logic if needed
+        position_cbx.setModel(new DefaultComboBoxModel<>(new String[]{"Manager", "Developer", "Sales", "HR"}));
+    }
 
     /**
      * Creates new form ListEmployeePanel
@@ -43,7 +55,9 @@ public class EmployeeGUI extends javax.swing.JPanel {
         }
 
         loadData();
-        
+        initializeGenderComboBox();
+        initializePositionComboBox();
+
         // Add a JScrollPane to manage table scrolling
 //        JScrollPane scrollPane = new JScrollPane(employee_table);
 //        add(scrollPane, BorderLayout.CENTER);
@@ -61,7 +75,7 @@ public class EmployeeGUI extends javax.swing.JPanel {
 
         // Populate the table model
         for (EmployeeDTO employee : employees) {
-            Object[] row = new Object[]{employee.getID(), employee.getName()};
+            Object[] row = new Object[]{employee.getID(), employee.getName(), employee.getLastname(), employee.getGender(), employee.getPosition()};
             tableModel.addRow(row);
         }
     }
@@ -87,8 +101,6 @@ public class EmployeeGUI extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         lastname = new javax.swing.JTextField();
         lastname_lb = new javax.swing.JLabel();
-        gender = new javax.swing.JTextField();
-        position = new javax.swing.JTextField();
         firstname = new javax.swing.JTextField();
         lastname_lab = new javax.swing.JLabel();
         firstname_lb = new javax.swing.JLabel();
@@ -97,6 +109,8 @@ public class EmployeeGUI extends javax.swing.JPanel {
         create = new javax.swing.JButton();
         update = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        gender_cbx = new javax.swing.JComboBox<>();
+        position_cbx = new javax.swing.JComboBox<>();
 
         employee_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -128,18 +142,6 @@ public class EmployeeGUI extends javax.swing.JPanel {
         lastname_lb.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lastname_lb.setText("Quan Ly Nhan Vien");
 
-        gender.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genderActionPerformed(evt);
-            }
-        });
-
-        position.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                positionActionPerformed(evt);
-            }
-        });
-
         firstname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 firstnameActionPerformed(evt);
@@ -155,10 +157,20 @@ public class EmployeeGUI extends javax.swing.JPanel {
         posiotion_lb.setText("Chuc Vu");
 
         create.setText("Tao tai khoan");
+        create.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createActionPerformed(evt);
+            }
+        });
 
         update.setText("Cap Nhat");
 
         jButton3.setText("Xoa");
+
+        gender_cbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
+        gender_cbx.setToolTipText("");
+
+        position_cbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Manager", "Employee" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -174,7 +186,7 @@ public class EmployeeGUI extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(gender_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(posiotion_lb))
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -182,9 +194,9 @@ public class EmployeeGUI extends javax.swing.JPanel {
                                 .addGap(32, 32, 32)
                                 .addComponent(firstname_lb)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(position, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(firstname, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(firstname, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                            .addComponent(position_cbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(65, 65, 65)
                         .addComponent(create)
@@ -210,10 +222,10 @@ public class EmployeeGUI extends javax.swing.JPanel {
                     .addComponent(firstname_lb))
                 .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(position, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(gender_lb)
-                    .addComponent(posiotion_lb))
+                    .addComponent(posiotion_lb)
+                    .addComponent(gender_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(position_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(create)
@@ -227,18 +239,18 @@ public class EmployeeGUI extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(67, 67, 67)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(87, 87, 87))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -246,17 +258,47 @@ public class EmployeeGUI extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_lastnameActionPerformed
 
-    private void genderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genderActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_genderActionPerformed
-
-    private void positionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_positionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_positionActionPerformed
-
     private void firstnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstnameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_firstnameActionPerformed
+
+    private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
+        // TODO add your handling code here:
+        String firstName = firstname.getText().trim();
+        String lastName = lastname.getText().trim();
+        String genderStr = (String) gender_cbx.getSelectedItem();
+        String positionStr = (String) position_cbx.getSelectedItem();
+        System.out.println(positionStr);
+
+        // Create an EmployeeDTO object and set its properties
+        EmployeeDTO employee = new EmployeeDTO();
+        employee.setName(firstName);
+        employee.setLastname(lastName);
+
+        try {
+            // Parse integer values safely
+            int genderInt = position_cbx.getSelectedIndex();
+            int positionInt = gender_cbx.getSelectedIndex();
+
+            employee.setGender(genderInt);
+            employee.setPosition(positionInt);
+
+            EmployeeBus bus = new EmployeeBus();
+
+            // Call the EmployeeService to create the employee
+            if (bus.createEmployee(employee)) {
+                JOptionPane.showMessageDialog(null, "Employee created successfully!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to create employee.");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Gender and Position must be valid integers.");
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
+        initUI();
+    }//GEN-LAST:event_createActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -264,7 +306,7 @@ public class EmployeeGUI extends javax.swing.JPanel {
     private javax.swing.JTable employee_table;
     private javax.swing.JTextField firstname;
     private javax.swing.JLabel firstname_lb;
-    private javax.swing.JTextField gender;
+    private javax.swing.JComboBox<String> gender_cbx;
     private javax.swing.JLabel gender_lb;
     private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
@@ -273,7 +315,7 @@ public class EmployeeGUI extends javax.swing.JPanel {
     private javax.swing.JLabel lastname_lab;
     private javax.swing.JLabel lastname_lb;
     private javax.swing.JLabel posiotion_lb;
-    private javax.swing.JTextField position;
+    private javax.swing.JComboBox<String> position_cbx;
     private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables
 }
