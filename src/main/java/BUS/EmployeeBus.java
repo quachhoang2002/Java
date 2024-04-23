@@ -58,4 +58,41 @@ public class EmployeeBus {
         return isSuccess;
     }
 
+    public boolean updateEmployee(EmployeeDTO employee) {
+        // Validate the employee object
+        if (employee == null) {
+            throw new IllegalArgumentException("Employee object cannot be null");
+        }
+        if (employee.getID() <= 0) {
+            throw new IllegalArgumentException("Invalid employee ID");
+        }
+        if (employee.getName() == null || employee.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Employee name cannot be null or empty");
+        }
+        if (employee.getLastname() == null || employee.getLastname().trim().isEmpty()) {
+            throw new IllegalArgumentException("Employee lastname cannot be null or empty");
+        }
+        // Additional validations can be added here (e.g., valid gender, position indices)
+
+        // Call DAO to update the employee
+        boolean isSuccess = dao.updateEmployee(employee);
+
+        // Additional business logic or post-processing can be done here if needed
+        return isSuccess;
+    }
+
+    public boolean deleteEmployee(int employeeId) {
+        // Here you could add any business validations
+        if (employeeId <= 0) {
+            throw new IllegalArgumentException("Invalid Employee ID");
+        }
+
+        // Call the DAO to delete the employee
+        EmployeeDAO dao = new EmployeeDAO();
+        boolean isDeleted = dao.deleteEmployee(employeeId);
+
+        // You can add additional post-deletion logic if needed
+        return isDeleted;
+    }
+
 }

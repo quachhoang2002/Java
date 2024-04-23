@@ -66,7 +66,9 @@ public class EmployeeDAO {
 
             while (rs.next()) {
                 EmployeeDTO e = new EmployeeDTO();
-                e.setID(rs.getInt("id"));
+                int id = rs.getInt("id");
+
+                e.setID(id);
                 e.setName(rs.getString("first_name"));
                 e.setLastname(rs.getString("last_name"));
                 e.setGender(rs.getInt("gender"));
@@ -109,6 +111,60 @@ public class EmployeeDAO {
             Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             Database.CloseConnection(conn, stmt);
+        }
+
+        return isSuccess;
+    }
+
+    public boolean updateEmployee(EmployeeDTO employee) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        boolean isSuccess = false;
+
+        try {
+            conn = Database.GetConnection();
+            String sql = "UPDATE employee SET first_name = ?, last_name = ?, gender = ?, position = ? WHERE id = ?";
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, employee.getName());
+            stmt.setString(2, employee.getLastname());
+            stmt.setInt(3, employee.getGender());
+            stmt.setInt(4, employee.getPosition());
+            stmt.setInt(5, employee.getID());  // Assuming there's an EmployeeId field in EmployeeDTO
+
+            int affectedRows = stmt.executeUpdate();
+            isSuccess = affectedRows > 0;
+        } catch (SQLException e) {
+            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } catch (ClassNotFoundException e) {
+            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Database.CloseConnection(conn, stmt);
+        }
+
+        return isSuccess;
+    }
+
+    public boolean deleteEmployee(int employeeId) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        boolean isSuccess = false;
+
+        try {
+            conn = Database.GetConnection();  // Assumed method to get a DB connection
+            String sql = "DELETE FROM employee WHERE id = ?";
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setInt(1, employeeId);
+
+            int affectedRows = stmt.executeUpdate();
+            isSuccess = affectedRows > 0;  // Check if the row was actually deleted
+        } catch (SQLException e) {
+            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } catch (ClassNotFoundException e) {
+            Logger.getLogger(EmployeeDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            Database.CloseConnection(conn, stmt);  // Assumed method to close connections
         }
 
         return isSuccess;

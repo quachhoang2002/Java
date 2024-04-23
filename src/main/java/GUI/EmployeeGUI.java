@@ -14,6 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,7 +31,6 @@ public class EmployeeGUI extends javax.swing.JPanel {
     }
 
     private void initializePositionComboBox() {
-        // Example positions - replace this with database fetch logic if needed
         position_cbx.setModel(new DefaultComboBoxModel<>(new String[]{"Manager", "Developer", "Sales", "HR"}));
     }
 
@@ -39,6 +40,7 @@ public class EmployeeGUI extends javax.swing.JPanel {
     public EmployeeGUI() {
         initComponents();
         initUI();
+        setupTableSelectionListener();
     }
 
     private void initUI() {
@@ -78,12 +80,12 @@ public class EmployeeGUI extends javax.swing.JPanel {
             Object[] row = new Object[]{employee.getID(), employee.getName(), employee.getLastname(), employee.getGender(), employee.getPosition()};
             tableModel.addRow(row);
         }
+
     }
 
     private void loadData() {
-        // Here, you would typically call a method that fetches data from your data source
         EmployeeDAO dao = new EmployeeDAO();
-        List<EmployeeDTO> employees = dao.findByName(""); // Or dao.findByName("name"), etc.
+        List<EmployeeDTO> employees = dao.findByName("");
         updateTable(employees);
     }
 
@@ -108,7 +110,7 @@ public class EmployeeGUI extends javax.swing.JPanel {
         posiotion_lb = new javax.swing.JLabel();
         create = new javax.swing.JButton();
         update = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        delete_btn = new javax.swing.JButton();
         gender_cbx = new javax.swing.JComboBox<>();
         position_cbx = new javax.swing.JComboBox<>();
 
@@ -164,8 +166,18 @@ public class EmployeeGUI extends javax.swing.JPanel {
         });
 
         update.setText("Cap Nhat");
+        update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Xoa");
+        delete_btn.setText("Xoa");
+        delete_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delete_btnActionPerformed(evt);
+            }
+        });
 
         gender_cbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
         gender_cbx.setToolTipText("");
@@ -203,7 +215,7 @@ public class EmployeeGUI extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(update)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3))
+                        .addComponent(delete_btn))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(137, 137, 137)
                         .addComponent(lastname_lb)))
@@ -230,7 +242,7 @@ public class EmployeeGUI extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(create)
                     .addComponent(update)
-                    .addComponent(jButton3))
+                    .addComponent(delete_btn))
                 .addGap(33, 33, 33))
         );
 
@@ -268,7 +280,6 @@ public class EmployeeGUI extends javax.swing.JPanel {
         String lastName = lastname.getText().trim();
         String genderStr = (String) gender_cbx.getSelectedItem();
         String positionStr = (String) position_cbx.getSelectedItem();
-        System.out.println(positionStr);
 
         // Create an EmployeeDTO object and set its properties
         EmployeeDTO employee = new EmployeeDTO();
@@ -282,7 +293,6 @@ public class EmployeeGUI extends javax.swing.JPanel {
 
             employee.setGender(genderInt);
             employee.setPosition(positionInt);
-
             EmployeeBus bus = new EmployeeBus();
 
             // Call the EmployeeService to create the employee
@@ -300,15 +310,99 @@ public class EmployeeGUI extends javax.swing.JPanel {
         initUI();
     }//GEN-LAST:event_createActionPerformed
 
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+        String firstName = firstname.getText().trim();
+        String lastName = lastname.getText().trim();
+        int selectedRow = employee_table.getSelectedRow();
+        int employeeId = (Integer) employee_table.getModel().getValueAt(selectedRow, 0);
+        int genderInt = gender_cbx.getSelectedIndex();
+        int positionInt = position_cbx.getSelectedIndex();
+
+        try {
+            EmployeeDTO employee = new EmployeeDTO();
+            employee.setID(employeeId);  // Set the Employee ID for update
+            employee.setName(firstName);
+            employee.setLastname(lastName);
+            employee.setGender(genderInt);
+            employee.setPosition(positionInt);
+            employee.getID();
+
+            EmployeeBus bus = new EmployeeBus();
+            if (bus.updateEmployee(employee)) {
+                JOptionPane.showMessageDialog(null, "Employee updated successfully!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to update employee.");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Gender and Position must be valid integers.");
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
+        initUI();  // Refresh the UI or close the update dialog
+    }//GEN-LAST:event_updateActionPerformed
+
+    private void delete_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_btnActionPerformed
+        int selectedRow = employee_table.getSelectedRow();
+        int employeeId = (Integer) employee_table.getModel().getValueAt(selectedRow, 0);
+
+        EmployeeBus bus = new EmployeeBus();
+        try {
+            if (bus.deleteEmployee(employeeId)) {
+                JOptionPane.showMessageDialog(null, "Employee deleted successfully!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to delete employee. No employee found with ID: " + employeeId);
+            }
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        }
+        
+        initUI();
+    }//GEN-LAST:event_delete_btnActionPerformed
+
+    private void setupTableSelectionListener() {
+        employee_table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) { // Prevent double events
+                    displaySelectedEmployeeData();
+                }
+            }
+        });
+    }
+
+    private void displaySelectedEmployeeData() {
+        int selectedRow = employee_table.getSelectedRow();
+
+        if (selectedRow != -1) { // Ensure a row is selected
+            // Fetch data from the selected row
+            int employeeId = (Integer) employee_table.getModel().getValueAt(selectedRow, 0);
+            String fn = (String) employee_table.getModel().getValueAt(selectedRow, 1);
+            String ln = (String) employee_table.getModel().getValueAt(selectedRow, 2);
+            int gd = (Integer) employee_table.getModel().getValueAt(selectedRow, 3); // Gender as an integer index
+            int posIndex = (Integer) employee_table.getModel().getValueAt(selectedRow, 4);
+
+            firstname.setText(fn);
+            lastname.setText(ln);
+            position_cbx.setSelectedIndex(posIndex);
+            gender_cbx.setSelectedIndex(gd);
+            position_cbx.setSelectedIndex(posIndex);
+        } else {
+            firstname.setText("");
+            lastname.setText("");
+            gender_lb.setText("");
+            gender_cbx.setSelectedIndex(-1);
+            position_cbx.setSelectedIndex(-1);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton create;
+    private javax.swing.JButton delete_btn;
     private javax.swing.JTable employee_table;
     private javax.swing.JTextField firstname;
     private javax.swing.JLabel firstname_lb;
     private javax.swing.JComboBox<String> gender_cbx;
     private javax.swing.JLabel gender_lb;
-    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField lastname;

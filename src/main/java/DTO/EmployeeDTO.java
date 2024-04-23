@@ -22,7 +22,7 @@ public class EmployeeDTO {
     }
 
     // Setter for identify
-    public void setID(int identify) {
+    public void setID(int id) {
         this.id = id;
     }
     
