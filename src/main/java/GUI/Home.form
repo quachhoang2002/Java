@@ -106,7 +106,7 @@
                       <Component id="banhang_btn" min="-2" pref="109" max="-2" attributes="0"/>
                       <Component id="sanpham_btn" min="-2" pref="109" max="-2" attributes="0"/>
                       <Component id="khuyenmai_btn" min="-2" pref="109" max="-2" attributes="0"/>
-                      <Component id="khuyenmai_btn1" min="-2" pref="109" max="-2" attributes="0"/>
+                      <Component id="khachang_btn1" min="-2" pref="109" max="-2" attributes="0"/>
                       <Component id="nhanvien_btn" min="-2" pref="109" max="-2" attributes="0"/>
                       <Component id="nhaphang_btn" min="-2" pref="109" max="-2" attributes="0"/>
                       <Component id="thongke_btn" min="-2" pref="109" max="-2" attributes="0"/>
@@ -126,7 +126,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="khuyenmai_btn" min="-2" pref="33" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="khuyenmai_btn1" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="khachang_btn1" min="-2" pref="33" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="nhanvien_btn" min="-2" pref="33" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -165,12 +165,12 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="khuyenmai_btnActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="khuyenmai_btn1">
+        <Component class="javax.swing.JButton" name="khachang_btn1">
           <Properties>
             <Property name="text" type="java.lang.String" value="Khach Hang"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="khuyenmai_btn1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="khachang_btn1ActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="nhanvien_btn">

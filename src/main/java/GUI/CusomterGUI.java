@@ -5,7 +5,9 @@
 package GUI;
 
 import BUS.EmployeeBus;
+import DAO.CustomerDAO;
 import DAO.EmployeeDAO;
+import DTO.CustomerDTO;
 import DTO.EmployeeDTO;
 import java.awt.BorderLayout;
 import java.util.List;
@@ -22,22 +24,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ADMIN
  */
-public class EmployeeGUI extends javax.swing.JPanel {
+public class CusomterGUI extends javax.swing.JPanel {
 
     private DefaultTableModel tableModel;
-
-    private void initializeGenderComboBox() {
-        gender_cbx.setModel(new DefaultComboBoxModel<>(new String[]{"Male", "Female", "Other"}));
-    }
-
-    private void initializePositionComboBox() {
-        position_cbx.setModel(new DefaultComboBoxModel<>(new String[]{"Manager", "Employee"}));
-    }
 
     /**
      * Creates new form ListEmployeePanel
      */
-    public EmployeeGUI() {
+    public CusomterGUI() {
         initComponents();
         initUI();
         setupTableSelectionListener();
@@ -47,46 +41,38 @@ public class EmployeeGUI extends javax.swing.JPanel {
 //        setLayout(new BorderLayout());
 
         // Initialize table model
-        if (employee_table == null) {
+        if (customer_table == null) {
             // Initialize table model
-            tableModel = new DefaultTableModel(new Object[]{"ID", "Name"}, 0);
-            employee_table = new JTable(tableModel);
+            tableModel = new DefaultTableModel(new Object[]{"ID", "Last Name", "First Name", "Phone"}, 0);
+            customer_table = new JTable(tableModel);
         } else {
             // Update the existing table model
-            tableModel = (DefaultTableModel) employee_table.getModel();
+            tableModel = (DefaultTableModel) customer_table.getModel();
         }
 
         loadData("");
-        initializeGenderComboBox();
-        initializePositionComboBox();
-
-        // Add a JScrollPane to manage table scrolling
-//        JScrollPane scrollPane = new JScrollPane(employee_table);
-//        add(scrollPane, BorderLayout.CENTER);
-//
-//        // Optionally, add a button to load or refresh the data
-//        JButton loadButton = new JButton("Load Data");
-//        loadButton.addActionListener(e -> loadData());
-//        add(loadButton, BorderLayout.SOUTH);
     }
 
     // Method to update the table model
-    public void updateTable(List<EmployeeDTO> employees) {
-        // Clear the existing data
-        tableModel.setRowCount(0);
+    public void updateTable(List<CustomerDTO> customers) {
+        tableModel.setRowCount(0); // Clear existing data
 
         // Populate the table model
-        for (EmployeeDTO employee : employees) {
-            Object[] row = new Object[]{employee.getID(), employee.getName(), employee.getLastname(), employee.getGender(), employee.getPosition()};
+        for (CustomerDTO customer : customers) {
+            Object[] row = new Object[]{
+                customer.getID(),
+                customer.getName(),
+                customer.getLastname(),
+                customer.getPhone()
+            };
             tableModel.addRow(row);
         }
-
     }
 
     private void loadData(String name) {
-        EmployeeDAO dao = new EmployeeDAO();
-        List<EmployeeDTO> employees = dao.findByName(name);
-        updateTable(employees);
+        CustomerDAO dao = new CustomerDAO();
+        List<CustomerDTO> customers = dao.findByName(name);
+        updateTable(customers);
     }
 
     /**
@@ -99,45 +85,43 @@ public class EmployeeGUI extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        employee_table = new javax.swing.JTable();
+        customer_table = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         lastname = new javax.swing.JTextField();
         lastname_lb = new javax.swing.JLabel();
         firstname = new javax.swing.JTextField();
         lastname_lab = new javax.swing.JLabel();
         firstname_lb = new javax.swing.JLabel();
-        gender_lb = new javax.swing.JLabel();
-        posiotion_lb = new javax.swing.JLabel();
         create = new javax.swing.JButton();
         update = new javax.swing.JButton();
         delete_btn = new javax.swing.JButton();
-        gender_cbx = new javax.swing.JComboBox<>();
-        position_cbx = new javax.swing.JComboBox<>();
         search_txt = new javax.swing.JTextField();
         searchlb = new javax.swing.JLabel();
         search_btn = new javax.swing.JButton();
         refresh = new javax.swing.JButton();
+        phone_txt = new javax.swing.JTextField();
+        phone_lb = new javax.swing.JLabel();
 
-        employee_table.setModel(new javax.swing.table.DefaultTableModel(
+        customer_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Ma", "Ho", "Ten", "Gioi Tinh", "Chuc Vu"
+                "Ma", "Ten", "Ho", "SDT"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(employee_table);
+        jScrollPane2.setViewportView(customer_table);
 
         lastname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,7 +130,7 @@ public class EmployeeGUI extends javax.swing.JPanel {
         });
 
         lastname_lb.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lastname_lb.setText("Quan Ly Nhan Vien");
+        lastname_lb.setText("Quan Ly Khach Hang");
 
         firstname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,11 +142,7 @@ public class EmployeeGUI extends javax.swing.JPanel {
 
         firstname_lb.setText("Ten");
 
-        gender_lb.setText("Gioi Tinh");
-
-        posiotion_lb.setText("Chuc Vu");
-
-        create.setText("Tao tai khoan");
+        create.setText("Tao ");
         create.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createActionPerformed(evt);
@@ -183,11 +163,6 @@ public class EmployeeGUI extends javax.swing.JPanel {
             }
         });
 
-        gender_cbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
-        gender_cbx.setToolTipText("");
-
-        position_cbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Manager", "Employee" }));
-
         searchlb.setText("Search");
 
         search_btn.setText("Tim Kiem");
@@ -204,6 +179,14 @@ public class EmployeeGUI extends javax.swing.JPanel {
             }
         });
 
+        phone_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phone_txtActionPerformed(evt);
+            }
+        });
+
+        phone_lb.setText("SDT");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -211,28 +194,15 @@ public class EmployeeGUI extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(48, 48, 48)
-                                .addComponent(lastname_lab))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(gender_lb)))
+                        .addGap(48, 48, 48)
+                        .addComponent(lastname_lab)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(firstname_lb))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(gender_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(posiotion_lb))))
+                        .addComponent(lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(firstname_lb)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(create)
-                        .addGap(18, 18, 18)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(update))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 121, Short.MAX_VALUE)
@@ -242,7 +212,6 @@ public class EmployeeGUI extends javax.swing.JPanel {
                 .addGap(6, 6, 6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(firstname, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(position_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(delete_btn)
@@ -254,6 +223,14 @@ public class EmployeeGUI extends javax.swing.JPanel {
                 .addGap(137, 137, 137)
                 .addComponent(lastname_lb)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(create)
+                    .addComponent(phone_lb))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(phone_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(160, 160, 160))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,22 +243,15 @@ public class EmployeeGUI extends javax.swing.JPanel {
                     .addComponent(lastname_lab)
                     .addComponent(firstname_lb)
                     .addComponent(firstname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(phone_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(phone_lb))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(gender_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(gender_lb))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(9, 9, 9)
-                            .addComponent(posiotion_lb)))
-                    .addComponent(position_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(update)
-                        .addComponent(delete_btn)
-                        .addComponent(refresh))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(update)
+                    .addComponent(delete_btn)
+                    .addComponent(refresh)
                     .addComponent(create))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -321,88 +291,68 @@ public class EmployeeGUI extends javax.swing.JPanel {
 
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
         // TODO add your handling code here:
-        String firstName = firstname.getText().trim();
+        String name = firstname.getText().trim();
         String lastName = lastname.getText().trim();
-        String genderStr = (String) gender_cbx.getSelectedItem();
-        String positionStr = (String) position_cbx.getSelectedItem();
+        String phone = phone_txt.getText().trim();
 
-        // Create an EmployeeDTO object and set its properties
-        EmployeeDTO employee = new EmployeeDTO();
-        employee.setName(firstName);
-        employee.setLastname(lastName);
+        CustomerDTO customer = new CustomerDTO();
+        customer.setName(name);
+        customer.setLastname(lastName);
+        customer.setPhone(phone);
 
-        try {
-            // Parse integer values safely
-            int genderInt = position_cbx.getSelectedIndex();
-            int positionInt = gender_cbx.getSelectedIndex();
-
-            employee.setGender(genderInt);
-            employee.setPosition(positionInt);
-            EmployeeBus bus = new EmployeeBus();
-
-            // Call the EmployeeService to create the employee
-            if (bus.createEmployee(employee)) {
-                JOptionPane.showMessageDialog(null, "Employee created successfully!");
-            } else {
-                JOptionPane.showMessageDialog(null, "Failed to create employee.");
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Gender and Position must be valid integers.");
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+        CustomerDAO dao = new CustomerDAO();
+        if (dao.createCustomer(customer)) {
+            JOptionPane.showMessageDialog(null, "Customer created successfully!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Failed to create customer.");
         }
 
-        initUI();
+        initUI(); // Refresh the UI
     }//GEN-LAST:event_createActionPerformed
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
-        String firstName = firstname.getText().trim();
+        String name = firstname.getText().trim();
         String lastName = lastname.getText().trim();
-        int selectedRow = employee_table.getSelectedRow();
-        int employeeId = (Integer) employee_table.getModel().getValueAt(selectedRow, 0);
-        int genderInt = gender_cbx.getSelectedIndex();
-        int positionInt = position_cbx.getSelectedIndex();
+        String phone = phone_txt.getText().trim();
+        int selectedRow = customer_table.getSelectedRow();
+        if (selectedRow != -1) {
+            int customerId = (Integer) customer_table.getModel().getValueAt(selectedRow, 0);
 
-        try {
-            EmployeeDTO employee = new EmployeeDTO();
-            employee.setID(employeeId);  // Set the Employee ID for update
-            employee.setName(firstName);
-            employee.setLastname(lastName);
-            employee.setGender(genderInt);
-            employee.setPosition(positionInt);
-            employee.getID();
+            CustomerDTO customer = new CustomerDTO();
+            customer.setID(customerId);
+            customer.setName(name);
+            customer.setLastname(lastName);
+            customer.setPhone(phone);
 
-            EmployeeBus bus = new EmployeeBus();
-            if (bus.updateEmployee(employee)) {
-                JOptionPane.showMessageDialog(null, "Employee updated successfully!");
+            CustomerDAO dao = new CustomerDAO();
+            if (dao.updateCustomer(customer)) {
+                JOptionPane.showMessageDialog(null, "Customer updated successfully!");
             } else {
-                JOptionPane.showMessageDialog(null, "Failed to update employee.");
+                JOptionPane.showMessageDialog(null, "Failed to update customer.");
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Gender and Position must be valid integers.");
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
 
-        initUI();  // Refresh the UI or close the update dialog
+            initUI(); // Refresh the UI
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a customer to update.");
+        }
     }//GEN-LAST:event_updateActionPerformed
 
     private void delete_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_btnActionPerformed
-        int selectedRow = employee_table.getSelectedRow();
-        int employeeId = (Integer) employee_table.getModel().getValueAt(selectedRow, 0);
+        int selectedRow = customer_table.getSelectedRow();
+        if (selectedRow != -1) {
+            int customerId = (Integer) customer_table.getModel().getValueAt(selectedRow, 0);
 
-        EmployeeBus bus = new EmployeeBus();
-        try {
-            if (bus.deleteEmployee(employeeId)) {
-                JOptionPane.showMessageDialog(null, "Employee deleted successfully!");
+            CustomerDAO dao = new CustomerDAO();
+            if (dao.deleteCustomer(customerId)) {
+                JOptionPane.showMessageDialog(null, "Customer deleted successfully!");
             } else {
-                JOptionPane.showMessageDialog(null, "Failed to delete employee. No employee found with ID: " + employeeId);
+                JOptionPane.showMessageDialog(null, "Failed to delete customer.");
             }
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+
+            initUI(); // Refresh the UI
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a customer to delete.");
         }
-        
-        initUI();
     }//GEN-LAST:event_delete_btnActionPerformed
 
     private void search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btnActionPerformed
@@ -413,14 +363,17 @@ public class EmployeeGUI extends javax.swing.JPanel {
 
     private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
         // TODO add your handling code here:
-            firstname.setText("");
-            lastname.setText("");
-            gender_cbx.setSelectedIndex(-1);
-            position_cbx.setSelectedIndex(-1);
+        firstname.setText("");
+        lastname.setText("");
+        phone_txt.setText("");
     }//GEN-LAST:event_refreshActionPerformed
 
+    private void phone_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phone_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_phone_txtActionPerformed
+
     private void setupTableSelectionListener() {
-        employee_table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        customer_table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 if (!event.getValueIsAdjusting()) { // Prevent double events
                     displaySelectedEmployeeData();
@@ -430,45 +383,36 @@ public class EmployeeGUI extends javax.swing.JPanel {
     }
 
     private void displaySelectedEmployeeData() {
-        int selectedRow = employee_table.getSelectedRow();
+        int selectedRow = customer_table.getSelectedRow();
+        if (selectedRow != -1) {
+            int customerId = (Integer) customer_table.getModel().getValueAt(selectedRow, 0);
+            String name = (String) customer_table.getModel().getValueAt(selectedRow, 1);
+            String lastName = (String) customer_table.getModel().getValueAt(selectedRow, 2);
+            String phone = (String) customer_table.getModel().getValueAt(selectedRow, 3);
 
-        if (selectedRow != -1) { // Ensure a row is selected
-            // Fetch data from the selected row
-            int employeeId = (Integer) employee_table.getModel().getValueAt(selectedRow, 0);
-            String fn = (String) employee_table.getModel().getValueAt(selectedRow, 1);
-            String ln = (String) employee_table.getModel().getValueAt(selectedRow, 2);
-            int gd = (Integer) employee_table.getModel().getValueAt(selectedRow, 3); // Gender as an integer index
-            int posIndex = (Integer) employee_table.getModel().getValueAt(selectedRow, 4);
-
-            firstname.setText(fn);
-            lastname.setText(ln);
-            position_cbx.setSelectedIndex(posIndex);
-            gender_cbx.setSelectedIndex(gd);
-            position_cbx.setSelectedIndex(posIndex);
+            firstname.setText(name);
+            lastname.setText(lastName);
+            phone_txt.setText(phone);
         } else {
             firstname.setText("");
             lastname.setText("");
-            gender_lb.setText("");
-            gender_cbx.setSelectedIndex(-1);
-            position_cbx.setSelectedIndex(-1);
+            phone_txt.setText("");
         }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton create;
+    private javax.swing.JTable customer_table;
     private javax.swing.JButton delete_btn;
-    private javax.swing.JTable employee_table;
     private javax.swing.JTextField firstname;
     private javax.swing.JLabel firstname_lb;
-    private javax.swing.JComboBox<String> gender_cbx;
-    private javax.swing.JLabel gender_lb;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField lastname;
     private javax.swing.JLabel lastname_lab;
     private javax.swing.JLabel lastname_lb;
-    private javax.swing.JLabel posiotion_lb;
-    private javax.swing.JComboBox<String> position_cbx;
+    private javax.swing.JLabel phone_lb;
+    private javax.swing.JTextField phone_txt;
     private javax.swing.JButton refresh;
     private javax.swing.JButton search_btn;
     private javax.swing.JTextField search_txt;

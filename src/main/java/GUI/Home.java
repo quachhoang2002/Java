@@ -36,7 +36,7 @@ public class Home extends javax.swing.JFrame {
         sanpham_btn = new javax.swing.JButton();
         banhang_btn = new javax.swing.JButton();
         khuyenmai_btn = new javax.swing.JButton();
-        khuyenmai_btn1 = new javax.swing.JButton();
+        khachang_btn1 = new javax.swing.JButton();
         nhanvien_btn = new javax.swing.JButton();
         nhaphang_btn = new javax.swing.JButton();
         thongke_btn = new javax.swing.JButton();
@@ -92,10 +92,10 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        khuyenmai_btn1.setText("Khach Hang");
-        khuyenmai_btn1.addActionListener(new java.awt.event.ActionListener() {
+        khachang_btn1.setText("Khach Hang");
+        khachang_btn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                khuyenmai_btn1ActionPerformed(evt);
+                khachang_btn1ActionPerformed(evt);
             }
         });
 
@@ -137,7 +137,7 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(banhang_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sanpham_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(khuyenmai_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(khuyenmai_btn1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(khachang_btn1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nhanvien_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nhaphang_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(thongke_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -154,7 +154,7 @@ public class Home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(khuyenmai_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(khuyenmai_btn1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(khachang_btn1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(nhanvien_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -233,9 +233,17 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_khuyenmai_btnActionPerformed
 
-    private void khuyenmai_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_khuyenmai_btn1ActionPerformed
+    private void khachang_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_khachang_btn1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_khuyenmai_btn1ActionPerformed
+          body.removeAll();
+        body.setLayout(new BorderLayout()); // Set to BorderLayout
+
+        CusomterGUI emForm = new CusomterGUI();
+        emForm.setPreferredSize(new Dimension(300, 300)); // Example size, adjust as needed
+        body.add(emForm, BorderLayout.CENTER);
+        body.revalidate();
+        body.repaint();
+    }//GEN-LAST:event_khachang_btn1ActionPerformed
 
     private void nhanvien_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nhanvien_btnActionPerformed
         // TODO add your handling code here:
@@ -301,8 +309,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel body;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton khachang_btn1;
     private javax.swing.JButton khuyenmai_btn;
-    private javax.swing.JButton khuyenmai_btn1;
     private javax.swing.JButton nhanvien_btn;
     private javax.swing.JButton nhaphang_btn;
     private javax.swing.JButton sanpham_btn;
