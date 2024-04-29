@@ -45,8 +45,5 @@ public class Database {
         }
     }
 
-    public static void CloseConnection(Connection conn, PreparedStatement stmt, ResultSet rs) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
 }

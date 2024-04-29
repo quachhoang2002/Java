@@ -218,15 +218,6 @@ public class Home extends javax.swing.JFrame {
 
     private void banhang_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_banhang_btnActionPerformed
         // TODO add your handling code here:
-        body.removeAll();
-        body.setLayout(new BorderLayout()); // Set to BorderLayout
-
-        Warehouse emForm = new Warehouse();
-        emForm.setPreferredSize(new Dimension(300, 300)); // Example size, adjust as needed
-        body.add(emForm, BorderLayout.CENTER);
-
-        body.revalidate();
-        body.repaint();
     }//GEN-LAST:event_banhang_btnActionPerformed
 
     private void khuyenmai_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_khuyenmai_btnActionPerformed
@@ -235,7 +226,7 @@ public class Home extends javax.swing.JFrame {
 
     private void khachang_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_khachang_btn1ActionPerformed
         // TODO add your handling code here:
-          body.removeAll();
+        body.removeAll();
         body.setLayout(new BorderLayout()); // Set to BorderLayout
 
         CusomterGUI emForm = new CusomterGUI();
@@ -259,6 +250,15 @@ public class Home extends javax.swing.JFrame {
 
     private void nhaphang_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nhaphang_btnActionPerformed
         // TODO add your handling code here:
+        body.removeAll();
+        body.setLayout(new BorderLayout()); // Set to BorderLayout
+
+        ImportGUI emForm = new ImportGUI();
+        emForm.setPreferredSize(new Dimension(300, 300)); // Example size, adjust as needed
+        body.add(emForm, BorderLayout.CENTER);
+
+        body.revalidate();
+        body.repaint();
     }//GEN-LAST:event_nhaphang_btnActionPerformed
 
     private void thongke_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thongke_btnActionPerformed
@@ -267,6 +267,15 @@ public class Home extends javax.swing.JFrame {
 
     private void thongke_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thongke_btn1ActionPerformed
         // TODO add your handling code here:
+        body.removeAll();
+        body.setLayout(new BorderLayout()); // Set to BorderLayout
+
+        WarehouseGUI emForm = new WarehouseGUI();
+        emForm.setPreferredSize(new Dimension(300, 300)); // Example size, adjust as needed
+        body.add(emForm, BorderLayout.CENTER);
+
+        body.revalidate();
+        body.repaint();
     }//GEN-LAST:event_thongke_btn1ActionPerformed
 
     /**

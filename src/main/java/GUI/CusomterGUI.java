@@ -1,4 +1,5 @@
 /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
@@ -203,6 +204,8 @@ public class CusomterGUI extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(create)
+                        .addGap(29, 29, 29)
                         .addComponent(update))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 121, Short.MAX_VALUE)
@@ -224,10 +227,8 @@ public class CusomterGUI extends javax.swing.JPanel {
                 .addComponent(lastname_lb)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(create)
-                    .addComponent(phone_lb))
+                .addContainerGap(137, Short.MAX_VALUE)
+                .addComponent(phone_lb)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(phone_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(160, 160, 160))
@@ -310,6 +311,41 @@ public class CusomterGUI extends javax.swing.JPanel {
         initUI(); // Refresh the UI
     }//GEN-LAST:event_createActionPerformed
 
+    private void search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btnActionPerformed
+        // TODO add your handling code here:
+        String name = search_txt.getText().trim();
+        loadData(name);
+    }//GEN-LAST:event_search_btnActionPerformed
+
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+        // TODO add your handling code here:
+        firstname.setText("");
+        lastname.setText("");
+        phone_txt.setText("");
+    }//GEN-LAST:event_refreshActionPerformed
+
+    private void phone_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phone_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_phone_txtActionPerformed
+
+    private void delete_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_btnActionPerformed
+        int selectedRow = customer_table.getSelectedRow();
+        if (selectedRow != -1) {
+            int customerId = (Integer) customer_table.getModel().getValueAt(selectedRow, 0);
+
+            CustomerDAO dao = new CustomerDAO();
+            if (dao.deleteCustomer(customerId)) {
+                JOptionPane.showMessageDialog(null, "Customer deleted successfully!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to delete customer.");
+            }
+
+            initUI(); // Refresh the UI
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a customer to delete.");
+        }
+    }//GEN-LAST:event_delete_btnActionPerformed
+
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
         String name = firstname.getText().trim();
         String lastName = lastname.getText().trim();
@@ -336,41 +372,6 @@ public class CusomterGUI extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Please select a customer to update.");
         }
     }//GEN-LAST:event_updateActionPerformed
-
-    private void delete_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_btnActionPerformed
-        int selectedRow = customer_table.getSelectedRow();
-        if (selectedRow != -1) {
-            int customerId = (Integer) customer_table.getModel().getValueAt(selectedRow, 0);
-
-            CustomerDAO dao = new CustomerDAO();
-            if (dao.deleteCustomer(customerId)) {
-                JOptionPane.showMessageDialog(null, "Customer deleted successfully!");
-            } else {
-                JOptionPane.showMessageDialog(null, "Failed to delete customer.");
-            }
-
-            initUI(); // Refresh the UI
-        } else {
-            JOptionPane.showMessageDialog(null, "Please select a customer to delete.");
-        }
-    }//GEN-LAST:event_delete_btnActionPerformed
-
-    private void search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btnActionPerformed
-        // TODO add your handling code here:
-        String name = search_txt.getText().trim();
-        loadData(name);
-    }//GEN-LAST:event_search_btnActionPerformed
-
-    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
-        // TODO add your handling code here:
-        firstname.setText("");
-        lastname.setText("");
-        phone_txt.setText("");
-    }//GEN-LAST:event_refreshActionPerformed
-
-    private void phone_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phone_txtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_phone_txtActionPerformed
 
     private void setupTableSelectionListener() {
         customer_table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
