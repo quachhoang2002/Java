@@ -17,6 +17,7 @@ public class ImportDTO {
     private String manuName;
     private double totalPrice;
     private int manufactureId;
+    private String time;
 
     public ImportDTO() {
         // Default constructor
@@ -83,6 +84,14 @@ public class ImportDTO {
 
     public void setManuName(String name) {
         this.manuName = name;
+    }
+
+    public void setTime(String t) {
+        this.time = t;
+    }
+
+    public String getTime() {
+        return this.time;
     }
 
 }

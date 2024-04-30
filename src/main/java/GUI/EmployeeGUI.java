@@ -27,11 +27,11 @@ public class EmployeeGUI extends javax.swing.JPanel {
     private DefaultTableModel tableModel;
 
     private void initializeGenderComboBox() {
-        gender_cbx.setModel(new DefaultComboBoxModel<>(new String[]{"Male", "Female", "Other"}));
+        gender_cbx.setModel(new DefaultComboBoxModel<>(new String[]{"Nam", "Nu", "Khac"}));
     }
 
     private void initializePositionComboBox() {
-        position_cbx.setModel(new DefaultComboBoxModel<>(new String[]{"Manager", "Employee"}));
+        position_cbx.setModel(new DefaultComboBoxModel<>(new String[]{"Quan Ly", "Nhan Vien"}));
     }
 
     /**
@@ -77,7 +77,19 @@ public class EmployeeGUI extends javax.swing.JPanel {
 
         // Populate the table model
         for (EmployeeDTO employee : employees) {
-            Object[] row = new Object[]{employee.getID(), employee.getName(), employee.getLastname(), employee.getGender(), employee.getPosition()};
+            String gender = "Name";
+            if (employee.getGender() == 1)  {
+                gender = "Nu";
+            } else if (employee.getGender() == 2)  {
+                gender = "Khac";
+            }
+            
+            String position = "Nhan Vien";
+            if (employee.getPosition() == 0){
+                position = "Quan Ly";
+            }
+
+            Object[] row = new Object[]{employee.getID(), employee.getName(), employee.getLastname(), gender, position};
             tableModel.addRow(row);
         }
 
@@ -401,7 +413,7 @@ public class EmployeeGUI extends javax.swing.JPanel {
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
-        
+
         initUI();
     }//GEN-LAST:event_delete_btnActionPerformed
 
@@ -413,10 +425,10 @@ public class EmployeeGUI extends javax.swing.JPanel {
 
     private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
         // TODO add your handling code here:
-            firstname.setText("");
-            lastname.setText("");
-            gender_cbx.setSelectedIndex(-1);
-            position_cbx.setSelectedIndex(-1);
+        firstname.setText("");
+        lastname.setText("");
+        gender_cbx.setSelectedIndex(-1);
+        position_cbx.setSelectedIndex(-1);
     }//GEN-LAST:event_refreshActionPerformed
 
     private void setupTableSelectionListener() {

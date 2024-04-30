@@ -57,7 +57,7 @@ public class Home extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(254, Short.MAX_VALUE)
+                .addContainerGap(331, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(227, 227, 227))
         );
@@ -263,6 +263,15 @@ public class Home extends javax.swing.JFrame {
 
     private void thongke_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thongke_btnActionPerformed
         // TODO add your handling code here:
+        body.removeAll();
+        body.setLayout(new BorderLayout()); // Set to BorderLayout
+
+        StatGUI emForm = new StatGUI();
+        emForm.setPreferredSize(new Dimension(300, 300)); // Example size, adjust as needed
+        body.add(emForm, BorderLayout.CENTER);
+
+        body.revalidate();
+        body.repaint();
     }//GEN-LAST:event_thongke_btnActionPerformed
 
     private void thongke_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thongke_btn1ActionPerformed

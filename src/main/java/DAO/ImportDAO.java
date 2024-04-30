@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -113,11 +114,12 @@ public class ImportDAO {
         try {
             conn = Database.GetConnection();
             // SQL query to retrieve imports by product name
-            String sql = "SELECT i.id, i.product_id, i.quantity, i.total_price, i.manufacture_id, p.name as product_name, m.name as manufacture_name "
+            String sql = "SELECT i.id, i.product_id, i.quantity, i.total_price, i.manufacture_id,i.date, p.name as product_name, m.name as manufacture_name "
                     + "FROM import i "
                     + "JOIN product p ON i.product_id = p.id "
                     + "JOIN manufacture m ON i.manufacture_id = m.id "
-                    + "WHERE p.name LIKE ?";
+                    + "WHERE p.name LIKE ?"
+                    + "ORDER BY i.id DESC";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, "%" + productName + "%");
             rs = stmt.executeQuery();
@@ -131,6 +133,9 @@ public class ImportDAO {
                 importDTO.setManufactureId(rs.getInt("manufacture_id"));
                 importDTO.setProdname(rs.getString("product_name")); // Set product name
                 importDTO.setManuName(rs.getString("manufacture_name")); // Set manufacture name
+                Timestamp timestamp = rs.getTimestamp("date");
+                String dateStr = timestamp.toString(); // Adjust formatting as needed
+                importDTO.setTime(dateStr);
                 imports.add(importDTO);
             }
         } catch (SQLException e) {
